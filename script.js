@@ -30,7 +30,7 @@ function createProductItemElement({ sku, title, image }) {
   return item.querySelector('span.item__sku').innerText;
 } */
 
-function cartItemClickListener(event) {
+function cartItemClickListener() {
   // coloque seu código aqui
 }
 
