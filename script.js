@@ -1,5 +1,4 @@
 // const { fetchProducts } = require('./helpers/fetchProducts');
-
 // const { fetchItem } = require("./helpers/fetchItem");
 
 function createProductImageElement(imageSource) {
@@ -29,11 +28,11 @@ function createProductItemElement({ sku, title, image }) {
 
 /* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
+} */
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-} */
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -72,7 +71,7 @@ addProdutsOnScreen();
 async function objComputador() {
   const obj = await fetchItem('MLB1790675058');
   // console.log(obj.price);
-  const newObj = { sku: obj.id, name: obj.title, salePrice: obj.price };
+  const newObj = await { sku: obj.id, name: obj.title, salePrice: obj.price };
   return newObj;
   }
   
@@ -83,7 +82,7 @@ objComputador();
 async function addItemsOnCart() {
   const cartItem = document.querySelector('.cart__items');
   const newObj = await objComputador();
-  const itemAdded = createCartItemElement(newObj);
+  const itemAdded = await createCartItemElement(newObj);
   cartItem.appendChild(itemAdded);
   }
 addItemsOnCart();
