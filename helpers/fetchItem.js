@@ -1,11 +1,6 @@
-const fetchItem = (param) =>{
-  return fetch(`https://api.mercadolibre.com/items/${param}`)
+const fetchItem = (param) => fetch(`https://api.mercadolibre.com/items/${param}`)
   .then((response) => response.json())
-  // .then((data) => console.log(data));
-  .then((data) => data);
-}; 
-
-// fetchItem('MLB1790675058');
+  .then((data) => data); 
 
 /* ou 
   const fetchItem = async (param) => {
@@ -14,8 +9,7 @@ const fetchItem = (param) =>{
   // console.log(json);
   return json;
 };
-fetchItem('MLB1790675058');
- */
+*/
 
 if (typeof module !== 'undefined') {
   module.exports = {
