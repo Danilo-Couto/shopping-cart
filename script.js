@@ -1,5 +1,7 @@
 // const { fetchProducts } = require('./helpers/fetchProducts');
 
+// const { fetchItem } = require("./helpers/fetchItem");
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,18 +16,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// criar array com id, title e thumbnail
-  async function arrayComputador() {
-    const array = await fetchProducts('computador');
-    return array.map((element) =>
-      ({ sku: element.id, title: element.title, image: element.thumbnail }));
-  }
-/* async function printarrayComputador() {
-  console.log(await arrayComputador());
-}
-printarrayComputador();
- */
-
 function createProductItemElement({ sku, title, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -37,23 +27,36 @@ function createProductItemElement({ sku, title, image }) {
   return section;
 }
 
-/* function getSkuFromProductItem(item) {
+function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-} */
+}
 
-/* function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   // coloque seu código aqui
-} */
+}
 
-/* function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-} */
+}
 
 // Adicione o elemento retornado da função createProductItemElement(product) como filho do elemento <section class="items">.
+
+// criar array com id, title e thumbnail
+async function arrayComputador() {
+  const array = await fetchProducts('computador');
+  const arrayProducts = array.map((element) =>
+    ({ sku: element.id, title: element.title, image: element.thumbnail }));
+    return arrayProducts;
+}
+/* async function printarrayComputador() {
+console.log(await arrayComputador());
+}
+printarrayComputador();
+*/
 
 async function addProdutsOnScreen() {
   const classItems = document.querySelector('.items');
@@ -63,7 +66,26 @@ async function addProdutsOnScreen() {
     classItems.appendChild(item);
   });
 }
+addProdutsOnScreen(); 
+ 
+// criar array com sku, name, salePrice
+async function objComputador() {
+  const obj = await fetchItem('MLB1790675058');
+  // console.log(obj.price);
+  const newObj = { sku: obj.id, name: obj.title, salePrice: obj.price };
+  return newObj;
+  }
   
-addProdutsOnScreen();
-  
+objComputador(); 
+
+// Adicione o elemento retornado da função createCartItemElement(product) como filho do elemento <ol class="cart__items">
+
+async function addItemsOnCart() {
+  const cartItem = document.querySelector('.cart__items');
+  const newObj = await objComputador();
+  const itemAdded = createCartItemElement(newObj);
+  cartItem.appendChild(itemAdded);
+  }
+addItemsOnCart();
+ 
 window.onload = () => { };
