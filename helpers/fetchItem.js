@@ -1,6 +1,6 @@
 const fetchItem = (param) => fetch(`https://api.mercadolibre.com/items/${param}`)
   .then((response) => response.json())
-  .then((data) => data); 
+  .then((data) => data);
 
 /* ou 
   const fetchItem = async (param) => {

@@ -8,6 +8,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// cria elementos de cada produto
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -15,40 +16,26 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, title, image }) {
+// cria cada produto
+function createProductItemElement({ id: sku, name: title, image }) {
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  section.appendChild(button);
+  button.addEventListener('click', () => addItemsOnCart(sku));
 
   return section;
 }
 
-/* function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-} */
-
-function cartItemClickListener() {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-// Adicione o elemento retornado da função createProductItemElement(product) como filho do elemento <section class="items">.
-
-// criar array com id, title e thumbnail
+// 1. funcao que captura o objeto json da API e cria um array com id, title e thumbnail 
 async function arrayComputador() {
-  const array = await fetchProducts('computador');
-  const arrayProducts = array.map((element) =>
-    ({ sku: element.id, title: element.title, image: element.thumbnail }));
+  const arrayComputers = await fetchProducts('computador');
+  // console.log(arrayComputers);
+  const arrayProducts = arrayComputers.map((element) =>
+    ({ id: element.id, name: element.title, image: element.thumbnail }));
     return arrayProducts;
 }
 /* async function printarrayComputador() {
@@ -57,6 +44,7 @@ console.log(await arrayComputador());
 printarrayComputador();
 */
 
+// 2. funcao que adiciona o array dos produtos à tela:
 async function addProdutsOnScreen() {
   const classItems = document.querySelector('.items');
   const newArray = await arrayComputador();
@@ -65,26 +53,31 @@ async function addProdutsOnScreen() {
     classItems.appendChild(item);
   });
 }
-addProdutsOnScreen(); 
- 
-// criar array com sku, name, salePrice
-async function objComputador() {
-  const obj = await fetchItem('MLB1790675058');
-  // console.log(obj.price);
-  const newObj = await { sku: obj.id, name: obj.title, salePrice: obj.price };
-  return newObj;
-  }
-  
-objComputador(); 
+/* function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+} */
 
-// Adicione o elemento retornado da função createCartItemElement(product) como filho do elemento <ol class="cart__items">
+function cartItemClickListener() {
+  //
+}
 
-async function addItemsOnCart() {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+// 3. funcao que adiciona produto clicado ao cart
+async function addItemsOnCart(sku) {
   const cartItem = document.querySelector('.cart__items');
-  const newObj = await objComputador();
-  const itemAdded = await createCartItemElement(newObj);
+  const clickedProduct = await fetchItem(sku);
+  //
+  const itemAdded = createCartItemElement(clickedProduct);
   cartItem.appendChild(itemAdded);
   }
-addItemsOnCart();
- 
-window.onload = () => { };
+
+window.onload = () => { 
+  addProdutsOnScreen();
+};
