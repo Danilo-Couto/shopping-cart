@@ -1,6 +1,3 @@
-// const { fetchProducts } = require('./helpers/fetchProducts');
-// const { fetchItem } = require("./helpers/fetchItem");
-
 const cartItem = document.querySelector('.cart__items');
 const productCard = document.querySelector('.items');
 
@@ -11,10 +8,19 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// elimina o item clicado no cart
 function cartItemClickListener(event) {
   cartItem.removeChild(event.target);
   }
 
+// elimina todos os itens do cart
+  const emptyCartButton = document.querySelector('.empty-cart');
+  emptyCartButton.addEventListener('click', () => {
+    for (let i = cartItem.childNodes.length - 1; i >= 0; i -= 1) {
+      cartItem.childNodes[i].remove();
+    }
+  });
+  
 // cria element para o cart
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
