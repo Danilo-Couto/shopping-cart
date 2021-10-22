@@ -8,7 +8,29 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-// cria elementos de cada produto
+function cartItemClickListener() {
+  //
+}
+
+// cria element para o cart
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+// Adiciona produto clicado ao cart
+async function addItemsOnCart(sku) {
+  const cartItem = document.querySelector('.cart__items');
+  const clickedProduct = await fetchItem(sku);
+  //
+  const itemAdded = createCartItemElement(clickedProduct);
+  cartItem.appendChild(itemAdded);
+  }
+
+// cria os elementos de cada produto a ser exibido
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -16,7 +38,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// cria cada produto
+// cria cada produto a ser exibido
 function createProductItemElement({ id: sku, name: title, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -30,7 +52,7 @@ function createProductItemElement({ id: sku, name: title, image }) {
   return section;
 }
 
-// 1. funcao que captura o objeto json da API e cria um array com id, title e thumbnail 
+// Captura o objeto json da API e cria um array com id, title e thumbnail 
 async function arrayComputador() {
   const arrayComputers = await fetchProducts('computador');
   // console.log(arrayComputers);
@@ -44,7 +66,7 @@ console.log(await arrayComputador());
 printarrayComputador();
 */
 
-// 2. funcao que adiciona o array dos produtos à tela:
+// Adiciona o array dos produtos à tela:
 async function addProdutsOnScreen() {
   const classItems = document.querySelector('.items');
   const newArray = await arrayComputador();
@@ -56,27 +78,6 @@ async function addProdutsOnScreen() {
 /* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 } */
-
-function cartItemClickListener() {
-  //
-}
-
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-// 3. funcao que adiciona produto clicado ao cart
-async function addItemsOnCart(sku) {
-  const cartItem = document.querySelector('.cart__items');
-  const clickedProduct = await fetchItem(sku);
-  //
-  const itemAdded = createCartItemElement(clickedProduct);
-  cartItem.appendChild(itemAdded);
-  }
 
 window.onload = () => { 
   addProdutsOnScreen();
