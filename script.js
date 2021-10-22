@@ -1,4 +1,4 @@
-const cartItem = document.querySelector('.cart__items');
+const cartItem = document.querySelector('.cart__items'); // ol
 const productCard = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
@@ -10,7 +10,9 @@ function createProductImageElement(imageSource) {
 
 // elimina o item clicado no cart
 function cartItemClickListener(event) {
-  cartItem.removeChild(event.target);
+  //cartItem.removeChild(event.target);
+  event.target.remove();
+  saveCartItems(cartItem.innerHTML);
   }
 
 // elimina todos os itens do cart
@@ -34,8 +36,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 async function addItemsOnCart(sku) {
   const clickedProduct = await fetchItem(sku);
   const itemAdded = createCartItemElement(clickedProduct);
-  cartItem.appendChild(itemAdded);
-  }
+  cartItem.appendChild(itemAdded);  
+  saveCartItems(cartItem.innerHTML);
+  // localStorage.setItem('cartItems', cartItem.innerHTML);
+}
 
 // cria os elementos de cada produto a ser exibido
 function createCustomElement(element, className, innerText) {
@@ -85,5 +89,7 @@ async function addProdutsOnScreen() {
 } */
 
 window.onload = () => { 
-  addProdutsOnScreen();
+  addProdutsOnScreen();  
+  // saveCartItems();
+  getSavedCartItems();
 };
