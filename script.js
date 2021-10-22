@@ -1,6 +1,9 @@
 // const { fetchProducts } = require('./helpers/fetchProducts');
 // const { fetchItem } = require("./helpers/fetchItem");
 
+const cartItem = document.querySelector('.cart__items');
+const productCard = document.querySelector('.items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -8,24 +11,22 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-function cartItemClickListener() {
-  //
-}
+function cartItemClickListener(event) {
+  cartItem.removeChild(event.target);
+  }
 
 // cria element para o cart
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => cartItemClickListener(event));
   return li;
 }
 
 // Adiciona produto clicado ao cart
 async function addItemsOnCart(sku) {
-  const cartItem = document.querySelector('.cart__items');
   const clickedProduct = await fetchItem(sku);
-  //
   const itemAdded = createCartItemElement(clickedProduct);
   cartItem.appendChild(itemAdded);
   }
@@ -55,7 +56,6 @@ function createProductItemElement({ id: sku, name: title, image }) {
 // Captura o objeto json da API e cria um array com id, title e thumbnail 
 async function arrayComputador() {
   const arrayComputers = await fetchProducts('computador');
-  // console.log(arrayComputers);
   const arrayProducts = arrayComputers.map((element) =>
     ({ id: element.id, name: element.title, image: element.thumbnail }));
     return arrayProducts;
@@ -68,11 +68,10 @@ printarrayComputador();
 
 // Adiciona o array dos produtos à tela:
 async function addProdutsOnScreen() {
-  const classItems = document.querySelector('.items');
   const newArray = await arrayComputador();
     newArray.forEach((element) => {
     const item = createProductItemElement(element); 
-    classItems.appendChild(item);
+    productCard.appendChild(item);
   });
 }
 /* function getSkuFromProductItem(item) {
