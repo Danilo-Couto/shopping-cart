@@ -10,7 +10,6 @@ function createProductImageElement(imageSource) {
 
 // elimina o item clicado no cart
 function cartItemClickListener(event) {
-  //cartItem.removeChild(event.target);
   event.target.remove();
   saveCartItems(cartItem.innerHTML);
   }
@@ -21,6 +20,7 @@ function cartItemClickListener(event) {
     for (let i = cartItem.childNodes.length - 1; i >= 0; i -= 1) {
       cartItem.childNodes[i].remove();
     }
+    saveCartItems(cartItem.innerHTML);
   });
   
 // cria element para o cart
