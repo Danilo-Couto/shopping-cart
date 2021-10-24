@@ -22,9 +22,9 @@ function cartItemClickListener(event) {
   const emptyCartButton = document.querySelector('.empty-cart');
   emptyCartButton.addEventListener('click', () => {
   cartItem.innerHTML = '';
-  subTotalTag.innerText = 0;
+  // subTotalTag.innerText = 0;
   localStorage.clear();
-  // saveCartItems(cartItem.innerHTML);
+  saveCartItems(cartItem.innerHTML);
   });
 
 // cria element para o cart
