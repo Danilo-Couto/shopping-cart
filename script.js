@@ -122,5 +122,4 @@ window.onload = () => {
   load();
 };
 
-// recolocar function createProductItemElement({ id: sku, name: title, image, price }) 
-
+// recolocar function createProductItemElement({ id: sku, name: title, image, price })
