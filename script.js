@@ -69,7 +69,7 @@ async function addAmount(sku) {
 }
  */
   // cria cada produto a ser exibido
-function createProductItemElement({ id: sku, name: title, image, price }) {
+function createProductItemElement({ id: sku, name: title, image }) {
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
@@ -121,3 +121,6 @@ window.onload = () => {
   // localStorage.getItem('amount', subTotalTag.innerHTML);
   load();
 };
+
+// recolocar function createProductItemElement({ id: sku, name: title, image, price }) 
+
