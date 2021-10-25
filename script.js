@@ -1,8 +1,8 @@
 const cartItem = document.querySelector('.cart__items'); // ol cart
 const productCard = document.querySelector('.items'); // products cards
 const ttt = '.total-price'; // only to receive class
-const subTotalStr = document.querySelector(ttt).innerHTML; // inital subtotal
-let subTotal = Number(subTotalStr); // numberfied subtotal
+const subTotalStr = document.querySelectorAll(ttt).innerHTML; // inital subtotal
+let subTotal = Number(subTotalStr).toFixed(2); // numberfied subtotal
 const saveAmountCartItems = (item) => localStorage.setItem('amount', item);
 const getSavedAmountCartItems = () => localStorage.getItem('amount');
 
@@ -29,8 +29,6 @@ function cartItemClickListener(event) {
   cartItem.innerHTML = '';
   document.querySelector(ttt).innerHTML = 0;
   subTotal = 0;
-  console.log('qnd elimina:', subTotal);
-  console.log(typeof subTotal);
   localStorage.clear();
   });
 
@@ -46,12 +44,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 // soma os itens do cart
 async function addAmount(price) {
   subTotal += price;
-
-  console.log('subTotal:', subTotal);
-  console.log(typeof subTotal);
-  console.log('price:', price);
-  console.log(typeof subTotal);
-
   document.querySelector(ttt).innerText = subTotal;
   saveAmountCartItems(subTotal);
 }
@@ -60,7 +52,7 @@ function loadingOn() {
   const load = document.createElement('h2');
   load.className = 'loading';
   cartItem.appendChild(load);
-  load.innerText = 'carregando...';
+  load.innerText = 'carregando';
 }
 
 function loadingOff() {
@@ -131,7 +123,6 @@ window.onload = () => {
   cartItem.innerHTML = getSavedCartItems();
   subTotal = Number(getSavedAmountCartItems());
   document.querySelector(ttt).innerText = subTotal;
-  console.log('onload:', subTotal);
   const li = document.querySelectorAll('.cart__item');
   if (!li.addEventListener) {
     li.forEach(((element) => element.addEventListener('click', cartItemClickListener)));
