@@ -1,8 +1,9 @@
-/* const getSavedCartItems = require('./helpers/getSavedCartItems');
- */
 const cartItem = document.querySelector('.cart__items'); // ol
 const productCard = document.querySelector('.items');
-// const subTotalTag = document.querySelector('.total-price');
+const subTotalTag = document.querySelector('.total-price');
+const subtotal = [];
+const saveAmountCartItems = (item) => localStorage.setItem('amount', item);
+const getSavedAmountCartItems = () => localStorage.getItem('amount');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,8 +14,14 @@ function createProductImageElement(imageSource) {
 
 // elimina o item clicado no cart
 function cartItemClickListener(event) {
+  console.log('atual:', subTotalTag.innerText);
+  const subItem = event.target.innerText.split('$').pop();
+  console.log('subItem:', subItem);
+  subTotalTag.innerText -= subItem;
   event.target.remove();
+//  return amount - subItem;
   saveCartItems(cartItem.innerHTML);
+  saveAmountCartItems(subTotalTag.innerHTML);
   // localStorage.getItem('cartItems').length para tirar a key
   }
 
@@ -22,7 +29,7 @@ function cartItemClickListener(event) {
   const emptyCartButton = document.querySelector('.empty-cart');
   emptyCartButton.addEventListener('click', () => {
   cartItem.innerHTML = '';
-  // subTotalTag.innerText = 0;
+  subTotalTag.innerText = 0;
   localStorage.clear();
   saveCartItems(cartItem.innerHTML);
   });
@@ -38,11 +45,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 // Adiciona produto clicado ao cart
 async function addItemsOnCart(sku) {
-  const clickedProduct = await fetchItem(sku);
-  // console.log(clickedProduct); // traz objeto com atributos do produto em questão
+  const clickedProduct = await fetchItem(sku); // traz objeto com atributos do produto em questão
   const itemAdded = createCartItemElement(clickedProduct); // insere o item no cart
-  cartItem.appendChild(itemAdded);  
-  // createSubTotal(clickedProduct); // ???
+  cartItem.appendChild(itemAdded); 
   saveCartItems(cartItem.innerHTML); // salva a ol do jeito que esta no local storage
 }
  
@@ -54,20 +59,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-/* const subtotal = [];
-
+// soma os itens do cart
 async function addAmount(sku) {
   const clickedProduct = await fetchItem(sku);
   subtotal.push(clickedProduct.price); // guarda o preco do item 
-  // criar funcao que soma de acordo com os itens:
-  // array guardando valores - ok
-  // reduce para somar os elementos do array:
   const amount = subtotal.reduce((acc, curr) => acc + curr);
   subTotalTag.innerText = amount.toFixed(2);
-  // return subTotalTag;
-  localStorage.setItem('amount', subTotalTag.innerHTML);
+  saveAmountCartItems(subTotalTag.innerHTML);
+  // return saveAmountCart;
 }
- */
+
   // cria cada produto a ser exibido
 function createProductItemElement({ id: sku, name: title, image }) {
   const section = document.createElement('section');
@@ -78,14 +79,13 @@ function createProductItemElement({ id: sku, name: title, image }) {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   section.appendChild(button);
   button.addEventListener('click', () => addItemsOnCart(sku));
-  // button.addEventListener('click', () => addAmount(sku)); // funcao para somar
+  button.addEventListener('click', () => addAmount(sku)); // funcao para somar
   return section;
 }
 
 // Captura o objeto json da API e cria um array com id, title e thumbnail 
 async function arrayComputador() {
   const arrayComputers = await fetchProducts('computador');
-  // console.log('arrayComputers:', arrayComputers[0].price);
   const arrayProducts = arrayComputers.map((element) =>
     ({ id: element.id, name: element.title, image: element.thumbnail, price: element.price }));
     return arrayProducts;
@@ -109,17 +109,13 @@ async function addProdutsOnScreen() {
   return item.querySelector('span.item__sku').innerText;
 } */
 
-function load() {
-  const savedCart = getSavedCartItems();
-  cartItem.innerHTML = savedCart;
-  cartItem.addEventListener('click', cartItemClickListener);
-}
-
 window.onload = () => { 
   addProdutsOnScreen();  
-  // getSavedCartItems();
-  // localStorage.getItem('amount', subTotalTag.innerHTML);
-  load();
+  cartItem.innerHTML = getSavedCartItems();
+  const li = document.querySelectorAll('.cart__item');
+  if (!li.addEventListener) {
+    li.forEach(((element) => element.addEventListener('click', cartItemClickListener)));
+  }
+  // if para apenas ativar quando clicdo na li
+  subTotalTag.innerHTML = getSavedAmountCartItems();
 };
-
-// recolocar function createProductItemElement({ id: sku, name: title, image, price })
