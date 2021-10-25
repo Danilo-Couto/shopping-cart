@@ -51,7 +51,8 @@ async function addAmount(price) {
 function loadingOn() {
   const load = document.createElement('h2');
   load.className = 'loading';
-  cartItem.appendChild(load);
+  const cart = document.querySelector('.cart');
+  cart.appendChild(load);
   load.innerText = 'carregando';
 }
  
