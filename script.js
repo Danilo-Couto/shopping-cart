@@ -1,8 +1,8 @@
-const cartItem = document.querySelector('.cart__items'); // ol
-const productCard = document.querySelector('.items');
-const ttt = '.total-price';
-const subTotalStr = document.querySelector(ttt).innerHTML;
-let subTotal = Number(subTotalStr);
+const cartItem = document.querySelector('.cart__items'); // ol cart
+const productCard = document.querySelector('.items'); // products cards
+const ttt = '.total-price'; // only to receive class
+const subTotalStr = document.querySelector(ttt).innerHTML; // inital subtotal
+let subTotal = Number(subTotalStr); // numberfied subtotal
 const saveAmountCartItems = (item) => localStorage.setItem('amount', item);
 const getSavedAmountCartItems = () => localStorage.getItem('amount');
 
@@ -27,9 +27,11 @@ function cartItemClickListener(event) {
   const emptyCartButton = document.querySelector('.empty-cart');
   emptyCartButton.addEventListener('click', () => {
   cartItem.innerHTML = '';
-  document.querySelector(ttt).innerHTML = 0.00;
+  document.querySelector(ttt).innerHTML = 0;
+  subTotal = 0;
+  console.log('qnd elimina:', subTotal);
+  console.log(typeof subTotal);
   localStorage.clear();
-  // saveCartItems(cartItem.innerHTML);
   });
 
 // cria element para o cart
@@ -44,18 +46,38 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 // soma os itens do cart
 async function addAmount(price) {
   subTotal += price;
+
+  console.log('subTotal:', subTotal);
+  console.log(typeof subTotal);
+  console.log('price:', price);
+  console.log(typeof subTotal);
+
   document.querySelector(ttt).innerText = subTotal;
   saveAmountCartItems(subTotal);
 }
 
+function loadingOn() {
+  const load = document.createElement('h2');
+  load.className = 'loading';
+  cartItem.appendChild(load);
+  load.innerText = 'carregando...';
+}
+
+function loadingOff() {
+  const load = document.querySelector('.loading');
+  load.remove();
+}
+
 // Adiciona produto clicado ao cart
 async function addItemsOnCart(sku) {
+  loadingOn();
   const clickedProduct = await fetchItem(sku); // traz objeto com atributos do produto em questão
+  loadingOff();
   const itemAdded = createCartItemElement(clickedProduct); // insere o item no cart
   cartItem.appendChild(itemAdded); 
   addAmount(clickedProduct.price);
   saveCartItems(cartItem.innerHTML); // salva a ol do jeito que esta no local storage
-  saveAmountCartItems(subTotal);
+  // saveAmountCartItems(subTotal);
 }
  
 // cria os elementos de cada produto a ser exibido
@@ -84,7 +106,7 @@ async function arrayComputador() {
   const arrayComputers = await fetchProducts('computador');
   const arrayProducts = arrayComputers.map((element) =>
     ({ id: element.id, name: element.title, image: element.thumbnail, price: element.price }));
-    return arrayProducts;
+  return arrayProducts;
 }
 /* async function printarrayComputador() {
 console.log(await arrayComputador());
@@ -107,9 +129,9 @@ async function addProdutsOnScreen() {
 window.onload = () => { 
   addProdutsOnScreen();  
   cartItem.innerHTML = getSavedCartItems();
-  subTotal = getSavedAmountCartItems();
+  subTotal = Number(getSavedAmountCartItems());
   document.querySelector(ttt).innerText = subTotal;
-  
+  console.log('onload:', subTotal);
   const li = document.querySelectorAll('.cart__item');
   if (!li.addEventListener) {
     li.forEach(((element) => element.addEventListener('click', cartItemClickListener)));
