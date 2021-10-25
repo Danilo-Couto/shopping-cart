@@ -1,7 +1,8 @@
 const cartItem = document.querySelector('.cart__items'); // ol
 const productCard = document.querySelector('.items');
-const subTotalTag = document.querySelector('.total-price');
-const subtotal = [];
+const ttt = '.total-price';
+const subTotalStr = document.querySelector(ttt).innerHTML;
+let subTotal = Number(subTotalStr);
 const saveAmountCartItems = (item) => localStorage.setItem('amount', item);
 const getSavedAmountCartItems = () => localStorage.getItem('amount');
 
@@ -14,24 +15,21 @@ function createProductImageElement(imageSource) {
 
 // elimina o item clicado no cart
 function cartItemClickListener(event) {
-  console.log('atual:', subTotalTag.innerText);
-  const subItem = event.target.innerText.split('$').pop();
-  console.log('subItem:', subItem);
-  subTotalTag.innerText -= subItem;
   event.target.remove();
-//  return amount - subItem;
+  const subItem = Number(event.target.innerText.split('$').pop());
+  subTotal -= subItem;
+  document.querySelector(ttt).innerHTML = subTotal;
+  saveAmountCartItems(subTotal);
   saveCartItems(cartItem.innerHTML);
-  saveAmountCartItems(subTotalTag.innerHTML);
-  // localStorage.getItem('cartItems').length para tirar a key
   }
 
 // elimina todos os itens do cart
   const emptyCartButton = document.querySelector('.empty-cart');
   emptyCartButton.addEventListener('click', () => {
   cartItem.innerHTML = '';
-  subTotalTag.innerText = 0;
+  document.querySelector(ttt).innerHTML = 0.00;
   localStorage.clear();
-  saveCartItems(cartItem.innerHTML);
+  // saveCartItems(cartItem.innerHTML);
   });
 
 // cria element para o cart
@@ -43,12 +41,21 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+// soma os itens do cart
+async function addAmount(price) {
+  subTotal += price;
+  document.querySelector(ttt).innerText = subTotal;
+  saveAmountCartItems(subTotal);
+}
+
 // Adiciona produto clicado ao cart
 async function addItemsOnCart(sku) {
   const clickedProduct = await fetchItem(sku); // traz objeto com atributos do produto em questão
   const itemAdded = createCartItemElement(clickedProduct); // insere o item no cart
   cartItem.appendChild(itemAdded); 
+  addAmount(clickedProduct.price);
   saveCartItems(cartItem.innerHTML); // salva a ol do jeito que esta no local storage
+  saveAmountCartItems(subTotal);
 }
  
 // cria os elementos de cada produto a ser exibido
@@ -57,16 +64,6 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
-}
-
-// soma os itens do cart
-async function addAmount(sku) {
-  const clickedProduct = await fetchItem(sku);
-  subtotal.push(clickedProduct.price); // guarda o preco do item 
-  const amount = subtotal.reduce((acc, curr) => acc + curr);
-  subTotalTag.innerText = amount.toFixed(2);
-  saveAmountCartItems(subTotalTag.innerHTML);
-  // return saveAmountCart;
 }
 
   // cria cada produto a ser exibido
@@ -79,7 +76,6 @@ function createProductItemElement({ id: sku, name: title, image }) {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   section.appendChild(button);
   button.addEventListener('click', () => addItemsOnCart(sku));
-  button.addEventListener('click', () => addAmount(sku)); // funcao para somar
   return section;
 }
 
@@ -99,7 +95,6 @@ printarrayComputador();
 // Adiciona o array dos produtos à tela:
 async function addProdutsOnScreen() {
   const newArray = await arrayComputador();
-  // console.log('newArray:', newArray[0]);
   newArray.forEach((element) => {
   const item = createProductItemElement(element); 
   productCard.appendChild(item);
@@ -112,10 +107,11 @@ async function addProdutsOnScreen() {
 window.onload = () => { 
   addProdutsOnScreen();  
   cartItem.innerHTML = getSavedCartItems();
+  subTotal = getSavedAmountCartItems();
+  document.querySelector(ttt).innerText = subTotal;
+  
   const li = document.querySelectorAll('.cart__item');
   if (!li.addEventListener) {
     li.forEach(((element) => element.addEventListener('click', cartItemClickListener)));
   }
-  // if para apenas ativar quando clicdo na li
-  subTotalTag.innerHTML = getSavedAmountCartItems();
 };
