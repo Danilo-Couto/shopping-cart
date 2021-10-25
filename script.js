@@ -2,7 +2,7 @@ const cartItem = document.querySelector('.cart__items'); // ol cart
 const productCard = document.querySelector('.items'); // products cards
 const ttt = '.total-price'; // only to receive class
 const subTotalStr = document.querySelectorAll(ttt).innerHTML; // inital subtotal
-let subTotal = Number(subTotalStr).toFixed(2); // numberfied subtotal
+let subTotal = Number(subTotalStr); // numberfied subtotal
 const saveAmountCartItems = (item) => localStorage.setItem('amount', item);
 const getSavedAmountCartItems = () => localStorage.getItem('amount');
 
@@ -54,7 +54,7 @@ function loadingOn() {
   cartItem.appendChild(load);
   load.innerText = 'carregando';
 }
-
+ 
 function loadingOff() {
   const load = document.querySelector('.loading');
   load.remove();
@@ -64,12 +64,11 @@ function loadingOff() {
 async function addItemsOnCart(sku) {
   loadingOn();
   const clickedProduct = await fetchItem(sku); // traz objeto com atributos do produto em questão
-  loadingOff();
   const itemAdded = createCartItemElement(clickedProduct); // insere o item no cart
   cartItem.appendChild(itemAdded); 
   addAmount(clickedProduct.price);
   saveCartItems(cartItem.innerHTML); // salva a ol do jeito que esta no local storage
-  // saveAmountCartItems(subTotal);
+  loadingOff();
 }
  
 // cria os elementos de cada produto a ser exibido
