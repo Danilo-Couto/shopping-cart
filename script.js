@@ -53,7 +53,7 @@ function loadingOn() {
   load.className = 'loading';
   const cart = document.querySelector('.cart');
   cart.appendChild(load);
-  load.innerText = 'carregando';
+  load.innerText = 'carregando...';
 }
  
 function loadingOff() {
