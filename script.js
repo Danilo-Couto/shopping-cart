@@ -91,7 +91,6 @@ console.log(await arrayComputador());
 printarrayComputador();
 */
 
-
 function loadingOn() {
   const load = document.createElement('h2');
   load.className = 'loading';
