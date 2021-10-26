@@ -48,28 +48,13 @@ async function addAmount(price) {
   saveAmountCartItems(subTotal);
 }
 
-function loadingOn() {
-  const load = document.createElement('h2');
-  load.className = 'loading';
-  const cart = document.querySelector('.cart');
-  cart.appendChild(load);
-  load.innerText = 'carregando...';
-}
- 
-function loadingOff() {
-  const load = document.querySelector('.loading');
-  load.remove();
-}
-
 // Adiciona produto clicado ao cart
 async function addItemsOnCart(sku) {
-  loadingOn();
   const clickedProduct = await fetchItem(sku); // traz objeto com atributos do produto em questão
   const itemAdded = createCartItemElement(clickedProduct); // insere o item no cart
   cartItem.appendChild(itemAdded); 
   addAmount(clickedProduct.price);
   saveCartItems(cartItem.innerHTML); // salva a ol do jeito que esta no local storage
-  loadingOff();
 }
  
 // cria os elementos de cada produto a ser exibido
@@ -106,9 +91,25 @@ console.log(await arrayComputador());
 printarrayComputador();
 */
 
+
+function loadingOn() {
+  const load = document.createElement('h2');
+  load.className = 'loading';
+  const display = document.querySelector('.items');
+  display.appendChild(load);
+  load.innerText = 'carregando...';
+}
+ 
+function loadingOff() {
+  const load = document.querySelector('.loading');
+  load.remove();
+}
+
 // Adiciona o array dos produtos à tela:
 async function addProdutsOnScreen() {
+  loadingOn();
   const newArray = await arrayComputador();
+  loadingOff();
   newArray.forEach((element) => {
   const item = createProductItemElement(element); 
   productCard.appendChild(item);
