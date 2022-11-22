@@ -4,69 +4,9 @@
 - Trabalhar com funções assíncronas;
 - Implementar testes unitários.
 
-## Antes de começar a desenvolver:
+## Deploy
+https://shopping-cart-three-rose.vercel.app/
 
-1. Clone o repositório
-  * Entre na pasta do repositório que você acabou de clonar:
-
-2. Instale as dependências e inicialize o projeto
-  * Instale as dependências:
-    * `npm install`
-
-3. Crie uma branch a partir da branch `master`
-  * Verifique que você está na branch `master`
-    * Exemplo: `git branch`
-  * Se não estiver, mude para a branch `master`
-    * Exemplo: `git checkout master`
-  * Agora, crie uma branch onde você vai guardar os `commits` do seu projeto
-    * Você deve criar uma branch no seguinte formato: `nome-sobrenome-nome-do-projeto`
-    * Exemplo: `git checkout -b maria-silva-shopping-cart`
-
-4. Quando fizer mudanças, adicione-as ao _stage_ do Git e faça um `commit`
-  * Verifique que as mudanças ainda não estão no _stage_
-    * Exemplo: `git status` (devem aparecer listados os novos arquivos em vermelho)
-  * Adicione o novo arquivo ao _stage_ do Git
-      * Exemplo:
-        * `git add .` (adicionando todas as mudanças - _que estavam em vermelho_ - ao stage do Git)
-        * `git status` (devem aparecer listados os arquivos em verde)
-  * Faça o `commit` inicial
-      * Exemplo:
-        * `git commit -m 'iniciando o projeto. VAMOS COM TUDO :rocket:'` (fazendo o primeiro commit)
-        * `git status` (deve aparecer uma mensagem tipo _nothing to commit_ )
-
-5. Adicione a sua branch com o novo `commit` ao repositório remoto
-  * Usando o exemplo anterior: `git push -u origin maria-silva-shopping-cart`
-
-6. Crie um novo `Pull Request` _(PR)_
-  * Vá até a página de _Pull Requests_ do [repositório no GitHub]
-  * Clique no botão verde _"New pull request"_
-  * Clique na caixa de seleção _"Compare"_ e escolha a sua branch **com atenção**
-  * Clique no botão verde _"Create pull request"_
-  * Adicione uma descrição para o _Pull Request_, um título claro que o identifique, e clique no botão verde _"Create pull request"_
-  * **Não se preocupe em preencher mais nada por enquanto!**
-  * Volte até a [página de _Pull Requests_ do repositório] e confira que o seu _Pull Request_ está criado
-
----
-
-## Durante o desenvolvimento
-
-* Faça `commits` das alterações que você fizer no código regularmente;
-
-* Lembre-se de sempre após um ~~(ou alguns)~~ `commits` atualizar o repositório remoto (o famoso `git push`);
-
-* Os comandos que você utilizará com mais frequência são:
-
-  1. `git status` _(para verificar o que está em vermelho - fora do stage - e o que está em verde - no stage)_;
-
-  2. `git add` _(para adicionar arquivos ao stage do Git)_;
-
-  3. `git commit` _(para criar um commit com os arquivos que estão no stage do Git)_;
-
-  4. `git push -u nome-da-branch` _(para enviar o commit para o repositório remoto na primeira vez que fizer o `push` de uma nova branch)_;
-
-  5. `git push` _(para enviar o commit para o repositório remoto após o passo anterior)_.
-
----
 
 # Requisitos do projeto
 
@@ -458,44 +398,3 @@ Foi pedido que você realize testes em determinadas funções, mas quem avalia o
 
 ### 10. Desenvolva testes para atingir 80% de cobertura
 
-> Implemente os testes nos arquivos da pasta `tests` que está na raiz do projeto.
-
-**A cobertura de testes irá checar apenas as funções que estão sendo testadas, e não toda a aplicação!**
-
-#### O que será avaliado
-
-- Será avaliado se os testes implementados atigem 80% da cobertura de testes.
-
-### 11. Desenvolva testes para atingir 100% de cobertura
-
-> Implemente os testes nos arquivos da pasta `tests` que está na raiz do projeto.
-
-**A cobertura de testes irá checar apenas as funções que estão sendo testadas, e não toda a aplicação!**
-
-#### O que será avaliado
-
-- Será avaliado se os testes implementados atigem 100% da cobertura de testes.
-
----
-
-## Depois de terminar o desenvolvimento
-
-Para sinalizar que o seu projeto está pronto para o _"Code Review"_ dos seus colegas, faça o seguinte:
-
-* Vá até a página **DO SEU** _Pull Request_, adicione a label de _"code-review"_ e marque seus colegas:
-
-  * No menu à direita, clique no _link_ **"Labels"** e escolha a _label_ **code-review**;
-
-  * No menu à direita, clique no _link_ **"Assignees"** e escolha **o seu usuário**;
-
-  * No menu à direita, clique no _link_ **"Reviewers"** e digite `students`, selecione o time.
-
-Caso tenha alguma dúvida, [aqui tem um video explicativo](https://vimeo.com/362189205).
-
----
-
-## Revisando um pull request
-
-Use o conteúdo sobre [Code Review] para te ajudar a revisar os _Pull Requests_.
-
----
